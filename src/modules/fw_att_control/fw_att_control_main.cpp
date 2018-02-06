@@ -456,6 +456,8 @@ FixedwingAttitudeControl::FixedwingAttitudeControl() :
 
 	_parameter_handles.bat_scale_en = param_find("FW_BAT_SCALE_EN");
 
+	_parameters.vtol_type = -1;
+
 	/* fetch initial parameter values */
 	parameters_update();
 }
