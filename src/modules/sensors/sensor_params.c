@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2012-2017 PX4 Development Team. All rights reserved.
+ *   Copyright (c) 2012-2019 PX4 Development Team. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -34,6 +34,7 @@
 /**
  * Primary baro ID
  *
+ * @category system
  * @group Sensor Calibration
  */
 PARAM_DEFINE_INT32(CAL_BARO_PRIME, 0);
@@ -54,7 +55,8 @@ PARAM_DEFINE_INT32(CAL_BARO_PRIME, 0);
  * @value 0 Model with Pitot
  * @value 1 Model without Pitot (1.5 mm tubes)
  * @value 2 Tube Pressure Drop
- * @group Sensor Calibration
+ *
+ * @group Sensors
  */
 PARAM_DEFINE_INT32(CAL_AIR_CMODEL, 0);
 
@@ -67,7 +69,7 @@ PARAM_DEFINE_INT32(CAL_AIR_CMODEL, 0);
  * @max 2.00
  * @unit meter
  *
- * @group Sensor Calibration
+ * @group Sensors
  */
 PARAM_DEFINE_FLOAT(CAL_AIR_TUBELEN, 0.2f);
 
@@ -78,7 +80,7 @@ PARAM_DEFINE_FLOAT(CAL_AIR_TUBELEN, 0.2f);
  * @max 100
  * @unit millimeter
  *
- * @group Sensor Calibration
+ * @group Sensors
  */
 PARAM_DEFINE_FLOAT(CAL_AIR_TUBED_MM, 1.5f);
 
@@ -87,6 +89,7 @@ PARAM_DEFINE_FLOAT(CAL_AIR_TUBED_MM, 1.5f);
  *
  * The offset (zero-reading) in Pascal
  *
+ * @category system
  * @group Sensor Calibration
  */
 PARAM_DEFINE_FLOAT(SENS_DPRES_OFF, 0.0f);
@@ -112,6 +115,9 @@ PARAM_DEFINE_FLOAT(SENS_DPRES_ANSC, 0);
  * @max 1500
  * @group Sensors
  * @unit hPa
+ *
+ * @reboot_required true
+ *
  */
 PARAM_DEFINE_FLOAT(SENS_BARO_QNH, 1013.25f);
 
@@ -146,43 +152,22 @@ PARAM_DEFINE_FLOAT(SENS_BARO_QNH, 1013.25f);
  * @value 23 Roll 270°, Yaw 135°
  * @value 24 Pitch 90°
  * @value 25 Pitch 270°
+ * @value 26 Roll 270°, Yaw 270°
+ * @value 27 Roll 180°, Pitch 270°
+ * @value 28 Pitch 90°, Yaw 180
+ * @value 29 Pitch 90°, Roll 90°
+ * @value 30 Yaw 293°, Pitch 68°, Roll 90° (Solo)
+ * @value 31 Pitch 90°, Roll 270°
+ * @value 32 Pitch 9°, Yaw 180°
+ * @value 33 Pitch 45°
+ * @value 34 Pitch 315°
+ * @value 35 Roll 90°, Yaw 270°
  *
  * @reboot_required true
  *
  * @group Sensors
  */
 PARAM_DEFINE_INT32(SENS_BOARD_ROT, 0);
-
-/**
- * PX4Flow board rotation
- *
- * This parameter defines the yaw rotation of the PX4FLOW board relative to the vehicle body frame.
- * Zero rotation is defined as X on flow board pointing towards front of vehicle.
- * The recommneded installation default for the PX4FLOW board is with the Y axis forward (270 deg yaw).
- *
- * @value 0 No rotation
- * @value 1 Yaw 45°
- * @value 2 Yaw 90°
- * @value 3 Yaw 135°
- * @value 4 Yaw 180°
- * @value 5 Yaw 225°
- * @value 6 Yaw 270°
- * @value 7 Yaw 315°
- *
- * @reboot_required true
- *
- * @group Sensors
- */
-PARAM_DEFINE_INT32(SENS_FLOW_ROT, 6);
-
-/**
- * Optical Flow minimum focus distance
- *
- * This parameter defines the minimum distance from ground required for the optical flow sensor to operate reliably. The sensor may be usable below this height, but accuracy will progressively reduce to loss of focus.
- * *
- * @group Sensor Calibration
- */
-PARAM_DEFINE_FLOAT(SENS_FLOW_MINRNG, 0.7f);
 
 /**
  * Board rotation Y (Pitch) offset
@@ -222,36 +207,8 @@ PARAM_DEFINE_FLOAT(SENS_BOARD_Z_OFF, 0.0f);
  *
  * @value -1 Thermal control unavailable
  * @value 0 Thermal control off
+ * @value 1 Thermal control enabled
+ * @category system
  * @group Sensors
  */
 PARAM_DEFINE_INT32(SENS_EN_THERMAL, -1);
-
-/**
-* Driver level cut frequency for gyro
-*
-* The cut frequency for the 2nd order butterworth filter on the gyro driver. This features
-* is currently supported by the mpu6000 and mpu9250. This only affects the signal sent to the
-* controllers, not the estimators. 0 disables the filter.
-*
-* @min 5
-* @max 1000
-* @unit Hz
-* @reboot_required true
-* @group Sensors
-*/
-PARAM_DEFINE_FLOAT(IMU_GYRO_CUTOFF, 30.0f);
-
-/**
-* Driver level cut frequency for accel
-*
-* The cut frequency for the 2nd order butterworth filter on the accel driver. This features
-* is currently supported by the mpu6000 and mpu9250. This only affects the signal sent to the
-* controllers, not the estimators. 0 disables the filter.
-*
-* @min 5
-* @max 1000
-* @unit Hz
-* @reboot_required true
-* @group Sensors
-*/
-PARAM_DEFINE_FLOAT(IMU_ACCEL_CUTOFF, 30.0f);

@@ -33,14 +33,15 @@
 
 #pragma once
 
-#include <px4_module.h>
-#include <controllib/blocks.hpp>
-#include <controllib/block/BlockParam.hpp>
+#include <px4_platform_common/module.h>
+#include <px4_platform_common/module_params.h>
+#include <uORB/Subscription.hpp>
+#include <uORB/topics/parameter_update.h>
 
 extern "C" __EXPORT int module_main(int argc, char *argv[]);
 
 
-class Module : public ModuleBase<Module>, public control::SuperBlock
+class Module : public ModuleBase<Module>, public ModuleParams
 {
 public:
 	Module(int example_param, bool example_flag);
@@ -72,9 +73,16 @@ private:
 	 * @param parameter_update_sub uorb subscription to parameter_update
 	 * @param force for a parameter update
 	 */
-	void parameters_update(int parameter_update_sub, bool force = false);
+	void parameters_update(bool force = false);
 
 
-	control::BlockParamInt _sys_autostart; /**< example parameter */
+	DEFINE_PARAMETERS(
+		(ParamInt<px4::params::SYS_AUTOSTART>) _param_sys_autostart,   /**< example parameter */
+		(ParamInt<px4::params::SYS_AUTOCONFIG>) _param_sys_autoconfig  /**< another parameter */
+	)
+
+	// Subscriptions
+	uORB::Subscription	_parameter_update_sub{ORB_ID(parameter_update)};
+
 };
 

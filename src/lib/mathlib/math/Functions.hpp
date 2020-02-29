@@ -39,7 +39,7 @@
 
 #pragma once
 
-#include <platforms/px4_defines.h>
+#include "Limits.hpp"
 
 namespace math
 {
@@ -48,7 +48,14 @@ namespace math
 template<typename T>
 int sign(T val)
 {
-	return (T(0) < val) - (val < T(0));
+	return (T(FLT_EPSILON) < val) - (val < T(FLT_EPSILON));
+}
+
+// Type-safe signum function with zero treated as positive
+template<typename T>
+int signNoZero(T val)
+{
+	return (T(0) <= val) - (val < T(0));
 }
 
 /*
@@ -139,8 +146,8 @@ const T gradual(const T &value, const T &x_low, const T &x_high, const T &y_low,
 
 	} else {
 		/* linear function between the two points */
-		float a = (y_high - y_low) / (x_high - x_low);
-		float b = y_low - a * x_low;
+		T a = (y_high - y_low) / (x_high - x_low);
+		T b = y_low - a * x_low;
 		return  a * value + b;
 	}
 }

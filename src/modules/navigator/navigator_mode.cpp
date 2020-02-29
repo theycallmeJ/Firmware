@@ -42,10 +42,8 @@
 #include "navigator_mode.h"
 #include "navigator.h"
 
-NavigatorMode::NavigatorMode(Navigator *navigator, const char *name) :
-	SuperBlock(navigator, name),
-	_navigator(navigator),
-	_active(false)
+NavigatorMode::NavigatorMode(Navigator *navigator) :
+	_navigator(navigator)
 {
 	/* set initial mission items */
 	on_inactivation();
